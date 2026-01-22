@@ -13,13 +13,6 @@ public class Fanta {
         while (scanner.hasNextLine()) {
             String input = scanner.nextLine();
 
-            if ("bye".equals(input)) {
-                System.out.println(DIVIDER);
-                System.out.println("  See you soon!");
-                System.out.println(DIVIDER);
-                break;
-            }
-
             if ("list".equals(input)) {
                 System.out.println(DIVIDER);
                 for (int i = 0; i < numTasks; i++) {
@@ -27,6 +20,13 @@ public class Fanta {
                 }
                 System.out.println(DIVIDER);
                 continue;
+            }
+
+            if ("bye".equals(input)) {
+                System.out.println(DIVIDER);
+                System.out.println("  See you soon!");
+                System.out.println(DIVIDER);
+                break;
             }
 
             if (input.startsWith("mark ")) {
@@ -53,13 +53,55 @@ public class Fanta {
                 continue;
             }
 
+            if (input.startsWith("todo ")) {
+                int before = numTasks;
+                if (numTasks < tasks.length) {
+                    tasks[numTasks] = new Todo(input.substring(5).trim());
+                    numTasks++;
+                }
+                if (numTasks > before) {
+                    printAdded(tasks, numTasks);
+                }
+                continue;
+            }
+
+            if (input.startsWith("deadline ")) {
+                int before = numTasks;
+                String[] parts = input.substring(9).split(" /by ", 2);
+                if (parts.length == 2 && numTasks < tasks.length) {
+                    tasks[numTasks] = new Deadline(parts[0].trim(), parts[1].trim());
+                    numTasks++;
+                }
+                if (numTasks > before) {
+                    printAdded(tasks, numTasks);
+                }
+                continue;
+            }
+
+            if (input.startsWith("event ")) {
+                int before = numTasks;
+                String[] parts = input.substring(6).split(" /from ", 2);
+                if (parts.length == 2) {
+                    String[] times = parts[1].split(" /to ", 2);
+                    if (times.length == 2 && numTasks < tasks.length) {
+                        tasks[numTasks] = new Event(parts[0].trim(), times[0].trim(), times[1].trim());
+                        numTasks++;
+                    }
+                }
+                if (numTasks > before) {
+                    printAdded(tasks, numTasks);
+                }
+                continue;
+            }
+
+            int before = numTasks;
             if (numTasks < tasks.length) {
                 tasks[numTasks] = new Task(input);
                 numTasks++;
             }
-            System.out.println(DIVIDER);
-            System.out.println("  added: " + input);
-            System.out.println(DIVIDER);
+            if (numTasks > before) {
+                printAdded(tasks, numTasks);
+            }
         }
 
         scanner.close();
@@ -72,5 +114,15 @@ public class Fanta {
         } catch (NumberFormatException e) {
             return -1;
         }
+    }
+
+    private static void printAdded(Task[] tasks, int count) {
+        if (count == 0) {
+            return;
+        }
+        System.out.println(DIVIDER);
+        System.out.println("  added: " + tasks[count - 1]);
+        System.out.println("  Now you have " + count + " tasks in the list.");
+        System.out.println(DIVIDER);
     }
 }
