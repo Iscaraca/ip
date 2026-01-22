@@ -11,16 +11,17 @@ public class Fanta {
 
         while (scanner.hasNextLine()) {
             String input = scanner.nextLine().trim();
+            Command cmd = Command.of(input);
 
             try {
-                if ("bye".equals(input)) {
+                if (cmd == Command.BYE) {
                     System.out.println(DIVIDER);
                     System.out.println("  See you soon!");
                     System.out.println(DIVIDER);
                     break;
                 }
 
-                if ("list".equals(input)) {
+                if (cmd == Command.LIST) {
                     System.out.println(DIVIDER);
                     for (int i = 0; i < tasks.size(); i++) {
                         System.out.println("  " + (i + 1) + ". " + tasks.get(i));
@@ -29,7 +30,7 @@ public class Fanta {
                     continue;
                 }
 
-                if (input.startsWith("mark ")) {
+                if (cmd == Command.MARK) {
                     int idx = toIndex(input.substring(5), tasks.size());
                     requireValidIndex(idx, tasks.size());
                     tasks.get(idx).markDone();
@@ -40,7 +41,7 @@ public class Fanta {
                     continue;
                 }
 
-                if (input.startsWith("unmark ")) {
+                if (cmd == Command.UNMARK) {
                     int idx = toIndex(input.substring(7), tasks.size());
                     requireValidIndex(idx, tasks.size());
                     tasks.get(idx).markUndone();
@@ -51,7 +52,7 @@ public class Fanta {
                     continue;
                 }
 
-                if (input.startsWith("todo")) {
+                if (cmd == Command.TODO) {
                     String desc = input.length() > 4 ? input.substring(4).trim() : "";
                     if (desc.isEmpty()) {
                         throw new FantaException("Todo needs a description.");
@@ -61,7 +62,7 @@ public class Fanta {
                     continue;
                 }
 
-                if (input.startsWith("deadline")) {
+                if (cmd == Command.DEADLINE) {
                     String body = input.length() > 8 ? input.substring(8).trim() : "";
                     String[] parts = body.split(" /by ", 2);
                     if (parts.length < 2 || parts[0].trim().isEmpty() || parts[1].trim().isEmpty()) {
@@ -72,7 +73,7 @@ public class Fanta {
                     continue;
                 }
 
-                if (input.startsWith("event")) {
+                if (cmd == Command.EVENT) {
                     String body = input.length() > 5 ? input.substring(5).trim() : "";
                     String[] parts = body.split(" /from ", 2);
                     if (parts.length < 2 || parts[0].trim().isEmpty()) {
@@ -87,7 +88,7 @@ public class Fanta {
                     continue;
                 }
 
-                if (input.startsWith("delete ")) {
+                if (cmd == Command.DELETE) {
                     int idx = toIndex(input.substring(7), tasks.size());
                     requireValidIndex(idx, tasks.size());
                     Task removed = tasks.remove(idx);
@@ -99,7 +100,7 @@ public class Fanta {
                     continue;
                 }
 
-                if (input.isEmpty()) {
+                if (cmd == Command.EMPTY) {
                     continue;
                 }
 
