@@ -3,8 +3,7 @@ public class Fanta {
 
     public static void main(String[] args) {
         java.util.Scanner scanner = new java.util.Scanner(System.in);
-        Task[] tasks = new Task[100];
-        int numTasks = 0;
+        java.util.ArrayList<Task> tasks = new java.util.ArrayList<>();
 
         System.out.println("  Hello! I'm Fanta");
         System.out.println("  What can I do for you?");
@@ -23,31 +22,31 @@ public class Fanta {
 
                 if ("list".equals(input)) {
                     System.out.println(DIVIDER);
-                    for (int i = 0; i < numTasks; i++) {
-                        System.out.println("  " + (i + 1) + ". " + tasks[i]);
+                    for (int i = 0; i < tasks.size(); i++) {
+                        System.out.println("  " + (i + 1) + ". " + tasks.get(i));
                     }
                     System.out.println(DIVIDER);
                     continue;
                 }
 
                 if (input.startsWith("mark ")) {
-                    int idx = toIndex(input.substring(5), numTasks);
-                    requireValidIndex(idx, numTasks);
-                    tasks[idx].markDone();
+                    int idx = toIndex(input.substring(5), tasks.size());
+                    requireValidIndex(idx, tasks.size());
+                    tasks.get(idx).markDone();
                     System.out.println(DIVIDER);
                     System.out.println("  Nice! I've marked this task as done:");
-                    System.out.println("    " + tasks[idx]);
+                    System.out.println("    " + tasks.get(idx));
                     System.out.println(DIVIDER);
                     continue;
                 }
 
                 if (input.startsWith("unmark ")) {
-                    int idx = toIndex(input.substring(7), numTasks);
-                    requireValidIndex(idx, numTasks);
-                    tasks[idx].markUndone();
+                    int idx = toIndex(input.substring(7), tasks.size());
+                    requireValidIndex(idx, tasks.size());
+                    tasks.get(idx).markUndone();
                     System.out.println(DIVIDER);
                     System.out.println("  OK, I've marked this task as not done yet:");
-                    System.out.println("    " + tasks[idx]);
+                    System.out.println("    " + tasks.get(idx));
                     System.out.println(DIVIDER);
                     continue;
                 }
@@ -57,9 +56,8 @@ public class Fanta {
                     if (desc.isEmpty()) {
                         throw new FantaException("Todo needs a description.");
                     }
-                    addTask(tasks, numTasks, new Todo(desc));
-                    numTasks++;
-                    printAdded(tasks, numTasks);
+                    tasks.add(new Todo(desc));
+                    printAdded(tasks);
                     continue;
                 }
 
@@ -69,9 +67,8 @@ public class Fanta {
                     if (parts.length < 2 || parts[0].trim().isEmpty() || parts[1].trim().isEmpty()) {
                         throw new FantaException("Deadline needs a description and a /by time.");
                     }
-                    addTask(tasks, numTasks, new Deadline(parts[0].trim(), parts[1].trim()));
-                    numTasks++;
-                    printAdded(tasks, numTasks);
+                    tasks.add(new Deadline(parts[0].trim(), parts[1].trim()));
+                    printAdded(tasks);
                     continue;
                 }
 
@@ -85,9 +82,20 @@ public class Fanta {
                     if (times.length < 2 || times[0].trim().isEmpty() || times[1].trim().isEmpty()) {
                         throw new FantaException("Event timings must include both /from and /to values.");
                     }
-                    addTask(tasks, numTasks, new Event(parts[0].trim(), times[0].trim(), times[1].trim()));
-                    numTasks++;
-                    printAdded(tasks, numTasks);
+                    tasks.add(new Event(parts[0].trim(), times[0].trim(), times[1].trim()));
+                    printAdded(tasks);
+                    continue;
+                }
+
+                if (input.startsWith("delete ")) {
+                    int idx = toIndex(input.substring(7), tasks.size());
+                    requireValidIndex(idx, tasks.size());
+                    Task removed = tasks.remove(idx);
+                    System.out.println(DIVIDER);
+                    System.out.println("  Noted. I've removed this task:");
+                    System.out.println("    " + removed);
+                    System.out.println("  Now you have " + tasks.size() + " tasks in the list.");
+                    System.out.println(DIVIDER);
                     continue;
                 }
 
@@ -121,20 +129,13 @@ public class Fanta {
         }
     }
 
-    private static void addTask(Task[] tasks, int index, Task task) throws FantaException {
-        if (index >= tasks.length) {
-            throw new FantaException("Task list is full.");
-        }
-        tasks[index] = task;
-    }
-
-    private static void printAdded(Task[] tasks, int count) {
-        if (count == 0) {
+    private static void printAdded(java.util.ArrayList<Task> tasks) {
+        if (tasks.isEmpty()) {
             return;
         }
         System.out.println(DIVIDER);
-        System.out.println("  added: " + tasks[count - 1]);
-        System.out.println("  Now you have " + count + " tasks in the list.");
+        System.out.println("  added: " + tasks.get(tasks.size() - 1));
+        System.out.println("  Now you have " + tasks.size() + " tasks in the list.");
         System.out.println(DIVIDER);
     }
 }
