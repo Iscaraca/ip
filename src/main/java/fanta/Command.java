@@ -1,7 +1,7 @@
 package fanta;
 
 public enum Command {
-    BYE, LIST, MARK, UNMARK, TODO, DEADLINE, EVENT, DELETE, EMPTY, UNKNOWN;
+    BYE, LIST, MARK, UNMARK, TODO, DEADLINE, EVENT, DELETE, FIND, EMPTY, UNKNOWN;
 
     public static Command of(String input) {
         if (input == null || input.isEmpty()) {
@@ -16,6 +16,7 @@ public enum Command {
         if (trimmed.startsWith("deadline")) return DEADLINE;
         if (trimmed.startsWith("event")) return EVENT;
         if (trimmed.startsWith("delete ")) return DELETE;
+        if (trimmed.startsWith("find ")) return FIND;
         return UNKNOWN;
     }
 }

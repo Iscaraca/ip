@@ -74,6 +74,20 @@ public class Ui {
         showDivider();
     }
 
+    /**
+     * Displays tasks that match a find query.
+     *
+     * @param matches matching tasks
+     */
+    public void showFind(java.util.List<Task> matches) {
+        showDivider();
+        System.out.println("  Here are the matching tasks in your list:");
+        for (int i = 0; i < matches.size(); i++) {
+            System.out.println("  " + (i + 1) + ". " + matches.get(i));
+        }
+        showDivider();
+    }
+
     public void showBye() {
         showDivider();
         System.out.println("  See you soon!");

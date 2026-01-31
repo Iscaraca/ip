@@ -47,6 +47,13 @@ public class Fanta {
                     continue;
                 }
 
+                if (cmd == Command.FIND) {
+                    String keyword = input.length() > 4 ? input.substring(4).trim() : "";
+                    java.util.List<Task> matches = find(keyword, tasks);
+                    ui.showFind(matches);
+                    continue;
+                }
+
                 if (cmd == Command.MARK) {
                     int idx = Parser.parseIndex(input.substring(5), tasks.size());
                     Task marked = tasks.mark(idx);
@@ -120,6 +127,19 @@ public class Fanta {
         }
 
         ui.close();
+    }
+
+    private java.util.List<Task> find(String keyword, TaskList tasks) {
+        java.util.ArrayList<Task> result = new java.util.ArrayList<>();
+        if (keyword.isEmpty()) {
+            return result;
+        }
+        for (Task task : tasks.all()) {
+            if (task.description.toLowerCase().contains(keyword.toLowerCase())) {
+                result.add(task);
+            }
+        }
+        return result;
     }
 
     private void save(TaskList tasks) throws FantaException {
