@@ -2,6 +2,7 @@ todo read book
 deadline return book /by 2019-12-02 1800
 event project meeting /from Mon 2pm /to 4pm
 list
+find book
 mark 2
 unmark 2
 delete 3

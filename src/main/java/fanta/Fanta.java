@@ -66,6 +66,9 @@ public class Fanta {
                 case DELETE:
                     handleDelete(input);
                     break;
+                case FIND:
+                    handleFind(input);
+                    break;
                 default:
                     throw new FantaException("Sorry, I don't recognize that command.");
                 }
@@ -85,6 +88,12 @@ public class Fanta {
      */
     private void save(TaskList tasks) throws FantaException {
         storage.save(tasks.all());
+    }
+
+    private void handleFind(String input) {
+        String keyword = input.length() > 4 ? input.substring(4).trim() : "";
+        java.util.List<Task> matches = find(keyword, tasks);
+        ui.showFind(matches);
     }
 
     private void handleMark(String input) throws FantaException {
@@ -145,5 +154,18 @@ public class Fanta {
         Task removed = tasks.remove(idx);
         save(tasks);
         ui.showDelete(removed, tasks.size());
+    }
+
+    private java.util.List<Task> find(String keyword, TaskList tasks) {
+        java.util.ArrayList<Task> result = new java.util.ArrayList<>();
+        if (keyword.isEmpty()) {
+            return result;
+        }
+        for (Task task : tasks.all()) {
+            if (task.description.toLowerCase().contains(keyword.toLowerCase())) {
+                result.add(task);
+            }
+        }
+        return result;
     }
 }
