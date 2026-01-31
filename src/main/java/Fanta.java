@@ -1,9 +1,19 @@
 public class Fanta {
     private static final String DIVIDER = "  ====================================================";
+    private static final String DATA_FILE = "data/duke.txt";
 
     public static void main(String[] args) {
         java.util.Scanner scanner = new java.util.Scanner(System.in);
-        java.util.ArrayList<Task> tasks = new java.util.ArrayList<>();
+        Storage storage = new Storage(DATA_FILE);
+        java.util.ArrayList<Task> tasks;
+        try {
+            tasks = new java.util.ArrayList<>(storage.load());
+        } catch (FantaException e) {
+            tasks = new java.util.ArrayList<>();
+            System.out.println(DIVIDER);
+            System.out.println("  Unable to load previous tasks. Starting fresh.");
+            System.out.println(DIVIDER);
+        }
 
         System.out.println("  Hello! I'm Fanta");
         System.out.println("  What can I do for you?");
@@ -34,6 +44,7 @@ public class Fanta {
                     int idx = toIndex(input.substring(5), tasks.size());
                     requireValidIndex(idx, tasks.size());
                     tasks.get(idx).markDone();
+                    save(storage, tasks);
                     System.out.println(DIVIDER);
                     System.out.println("  Nice! I've marked this task as done:");
                     System.out.println("    " + tasks.get(idx));
@@ -45,6 +56,7 @@ public class Fanta {
                     int idx = toIndex(input.substring(7), tasks.size());
                     requireValidIndex(idx, tasks.size());
                     tasks.get(idx).markUndone();
+                    save(storage, tasks);
                     System.out.println(DIVIDER);
                     System.out.println("  OK, I've marked this task as not done yet:");
                     System.out.println("    " + tasks.get(idx));
@@ -58,6 +70,7 @@ public class Fanta {
                         throw new FantaException("Todo needs a description.");
                     }
                     tasks.add(new Todo(desc));
+                    save(storage, tasks);
                     printAdded(tasks);
                     continue;
                 }
@@ -69,6 +82,7 @@ public class Fanta {
                         throw new FantaException("Deadline needs a description and a /by time.");
                     }
                     tasks.add(new Deadline(parts[0].trim(), parts[1].trim()));
+                    save(storage, tasks);
                     printAdded(tasks);
                     continue;
                 }
@@ -84,6 +98,7 @@ public class Fanta {
                         throw new FantaException("Event timings must include both /from and /to values.");
                     }
                     tasks.add(new Event(parts[0].trim(), times[0].trim(), times[1].trim()));
+                    save(storage, tasks);
                     printAdded(tasks);
                     continue;
                 }
@@ -92,6 +107,7 @@ public class Fanta {
                     int idx = toIndex(input.substring(7), tasks.size());
                     requireValidIndex(idx, tasks.size());
                     Task removed = tasks.remove(idx);
+                    save(storage, tasks);
                     System.out.println(DIVIDER);
                     System.out.println("  Noted. I've removed this task:");
                     System.out.println("    " + removed);
@@ -138,5 +154,9 @@ public class Fanta {
         System.out.println("  added: " + tasks.get(tasks.size() - 1));
         System.out.println("  Now you have " + tasks.size() + " tasks in the list.");
         System.out.println(DIVIDER);
+    }
+
+    private static void save(Storage storage, java.util.List<Task> tasks) throws FantaException {
+        storage.save(tasks);
     }
 }
