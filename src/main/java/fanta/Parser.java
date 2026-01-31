@@ -1,3 +1,5 @@
+package fanta;
+
 /**
  * Parses user input into commands and indexes.
  */

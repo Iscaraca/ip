@@ -1,3 +1,5 @@
+package fanta;
+
 public class Task {
     protected final String description;
     protected boolean done;
