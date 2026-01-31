@@ -1,5 +1,8 @@
 package fanta;
 
+/**
+ * Main entry point for the Fanta task manager application.
+ */
 public class Fanta {
     private static final String DATA_FILE = "data/fanta.txt";
 
@@ -24,6 +27,9 @@ public class Fanta {
         new Fanta(DATA_FILE).run();
     }
 
+    /**
+     * Starts the command loop, delegating input/output to {@link Ui} and storage to {@link Storage}.
+     */
     public void run() {
         ui.showWelcome();
         boolean isExit = false;
@@ -122,6 +128,12 @@ public class Fanta {
         ui.close();
     }
 
+    /**
+     * Persists the given tasks to disk.
+     *
+     * @param tasks current task list
+     * @throws FantaException if saving fails
+     */
     private void save(TaskList tasks) throws FantaException {
         storage.save(tasks.all());
     }
