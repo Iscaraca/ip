@@ -61,7 +61,7 @@ public class Storage {
         }
         if (task instanceof Deadline) {
             Deadline d = (Deadline) task;
-            return String.join(" | ", "D", status, task.description, d.getBy());
+            return String.join(" | ", "D", status, task.description, d.getByStorageString());
         }
         if (task instanceof Event) {
             Event e = (Event) task;
