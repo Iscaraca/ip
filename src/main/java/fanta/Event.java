@@ -1,5 +1,8 @@
 package fanta;
 
+/**
+ * Represents an event that spans a time range.
+ */
 public class Event extends Task {
     private final String from;
     private final String to;

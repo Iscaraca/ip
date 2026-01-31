@@ -18,6 +18,12 @@ public class Storage {
         this.filePath = Paths.get(first, more);
     }
 
+    /**
+     * Loads tasks from disk if present.
+     *
+     * @return list of tasks (possibly empty)
+     * @throws FantaException if loading fails unexpectedly
+     */
     public List<Task> load() throws FantaException {
         if (!Files.exists(filePath)) {
             return new ArrayList<>();
@@ -40,6 +46,12 @@ public class Storage {
         }
     }
 
+    /**
+     * Persists the given tasks to disk, creating directories if needed.
+     *
+     * @param tasks tasks to store
+     * @throws FantaException if writing fails
+     */
     public void save(List<Task> tasks) throws FantaException {
         try {
             if (filePath.getParent() != null) {

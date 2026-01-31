@@ -13,6 +13,7 @@ public class Ui {
         this.scanner = new Scanner(System.in);
     }
 
+    /** Greets the user. */
     public void showWelcome() {
         System.out.println("  Hello! I'm Fanta");
         System.out.println("  What can I do for you?");
@@ -23,14 +24,21 @@ public class Ui {
         return scanner.hasNextLine();
     }
 
+    /** Reads the next user input line. */
     public String readCommand() {
         return scanner.nextLine().trim();
     }
 
+    /** Prints a divider line. */
     public void showDivider() {
         System.out.println(DIVIDER);
     }
 
+    /**
+     * Prints a formatted error message.
+     *
+     * @param message details of the error
+     */
     public void showError(String message) {
         showDivider();
         System.out.println("  " + message);
@@ -44,6 +52,11 @@ public class Ui {
         showDivider();
     }
 
+    /**
+     * Displays all tasks in the list.
+     *
+     * @param tasks the task list
+     */
     public void showList(TaskList tasks) {
         showDivider();
         for (int i = 0; i < tasks.size(); i++) {
@@ -80,6 +93,7 @@ public class Ui {
         showDivider();
     }
 
+    /** Shows a generic load failure notice. */
     public void showLoadingError() {
         showDivider();
         System.out.println("  Unable to load previous tasks. Starting fresh.");

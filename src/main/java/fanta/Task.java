@@ -1,5 +1,8 @@
 package fanta;
 
+/**
+ * Base abstraction for all tasks.
+ */
 public class Task {
     protected final String description;
     protected boolean done;

@@ -17,14 +17,22 @@ public class TaskList {
         this.tasks = new ArrayList<>(existing);
     }
 
+    /** @return number of tasks. */
     public int size() {
         return tasks.size();
     }
 
+    /**
+     * Returns task by index.
+     *
+     * @param index zero-based index
+     * @return task
+     */
     public Task get(int index) {
         return tasks.get(index);
     }
 
+    /** @return all tasks as a mutable list reference. */
     public List<Task> all() {
         return tasks;
     }
