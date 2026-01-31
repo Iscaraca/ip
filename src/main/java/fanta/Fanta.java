@@ -1,5 +1,7 @@
+package fanta;
+
 public class Fanta {
-    private static final String DATA_FILE = "data/duke.txt";
+    private static final String DATA_FILE = "data/fanta.txt";
 
     private final Storage storage;
     private final TaskList tasks;

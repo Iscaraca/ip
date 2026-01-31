@@ -1,3 +1,5 @@
+package fanta;
+
 import java.util.Scanner;
 
 /**
