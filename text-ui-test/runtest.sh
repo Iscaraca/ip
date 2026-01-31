@@ -8,6 +8,12 @@ then
     mkdir ../bin
 fi
 
+# ensure no persisted data interferes with test determinism
+if [ -d "./data" ]
+then
+    rm -rf ./data
+fi
+
 # delete output from previous run
 if [ -e "./ACTUAL.TXT" ]
 then
