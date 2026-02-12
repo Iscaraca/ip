@@ -1,0 +1,9 @@
+<!ELEMENT module (property|module)*>
+<!ATTLIST module
+          name CDATA #REQUIRED
+          severity CDATA #IMPLIED
+          id CDATA #IMPLIED>
+<!ELEMENT property EMPTY>
+<!ATTLIST property
+          name CDATA #REQUIRED
+          value CDATA #REQUIRED>

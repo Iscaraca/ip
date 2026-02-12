@@ -1,0 +1,21 @@
+<!ELEMENT suppressions (suppress|module)*>
+
+<!ELEMENT suppress EMPTY>
+<!ATTLIST suppress
+          files CDATA #REQUIRED
+          checks CDATA #IMPLIED
+          message CDATA #IMPLIED
+          id CDATA #IMPLIED
+          lines CDATA #IMPLIED
+          columns CDATA #IMPLIED>
+
+<!ELEMENT module (property|module)*>
+<!ATTLIST module
+          name CDATA #REQUIRED
+          severity CDATA #IMPLIED
+          id CDATA #IMPLIED>
+
+<!ELEMENT property EMPTY>
+<!ATTLIST property
+          name CDATA #REQUIRED
+          value CDATA #REQUIRED>

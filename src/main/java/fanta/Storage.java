@@ -96,23 +96,23 @@ public class Storage {
 
         Task task;
         switch (type) {
-        case "T":
-            task = new Todo(desc);
-            break;
-        case "D":
-            if (parts.length < 4) {
-                throw new FantaException("Corrupted deadline entry: " + line);
-            }
-            task = new Deadline(desc, parts[3].trim());
-            break;
-        case "E":
-            if (parts.length < 5) {
-                throw new FantaException("Corrupted event entry: " + line);
-            }
-            task = new Event(desc, parts[3].trim(), parts[4].trim());
-            break;
-        default:
-            throw new FantaException("Unknown task type: " + line);
+            case "T":
+                task = new Todo(desc);
+                break;
+            case "D":
+                if (parts.length < 4) {
+                    throw new FantaException("Corrupted deadline entry: " + line);
+                }
+                task = new Deadline(desc, parts[3].trim());
+                break;
+            case "E":
+                if (parts.length < 5) {
+                    throw new FantaException("Corrupted event entry: " + line);
+                }
+                task = new Event(desc, parts[3].trim(), parts[4].trim());
+                break;
+            default:
+                throw new FantaException("Unknown task type: " + line);
         }
 
         if (status.equals("1")) {
