@@ -141,7 +141,7 @@ public class Fanta {
 
     private void handleFind(String input) {
         String keyword = input.length() > 4 ? input.substring(4).trim() : "";
-        java.util.List<Task> matches = find(keyword, tasks);
+        java.util.List<Task> matches = tasks.findContaining(keyword);
         ui.showFind(matches.toArray(new Task[0]));
     }
 
@@ -207,7 +207,7 @@ public class Fanta {
 
     private String handleFindGui(String input) {
         String keyword = input.length() > 4 ? input.substring(4).trim() : "";
-        java.util.List<Task> matches = find(keyword, tasks);
+        java.util.List<Task> matches = tasks.findContaining(keyword);
         StringBuilder sb = new StringBuilder("Here are the matching tasks in your list:");
         for (int i = 0; i < matches.size(); i++) {
             sb.append(System.lineSeparator()).append(i + 1).append(". ").append(matches.get(i));
@@ -275,16 +275,4 @@ public class Fanta {
         ui.showDelete(removed, tasks.size());
     }
 
-    private java.util.List<Task> find(String keyword, TaskList tasks) {
-        java.util.ArrayList<Task> result = new java.util.ArrayList<>();
-        if (keyword.isEmpty()) {
-            return result;
-        }
-        for (Task task : tasks.all()) {
-            if (task.description.toLowerCase().contains(keyword.toLowerCase())) {
-                result.add(task);
-            }
-        }
-        return result;
-    }
 }

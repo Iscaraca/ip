@@ -2,6 +2,8 @@ package fanta;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 /**
  * Wraps the task collection.
@@ -43,14 +45,19 @@ public class TaskList {
      * @return string representation
      */
     public String asString() {
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < tasks.size(); i++) {
-            sb.append(i + 1).append(". ").append(tasks.get(i));
-            if (i + 1 < tasks.size()) {
-                sb.append(System.lineSeparator());
-            }
-        }
-        return sb.toString();
+        return IntStream.range(0, tasks.size())
+                .mapToObj(i -> (i + 1) + ". " + tasks.get(i))
+                .collect(Collectors.joining(System.lineSeparator()));
+    }
+
+    /**
+     * Returns tasks containing the keyword (case-insensitive).
+     */
+    public List<Task> findContaining(String keyword) {
+        String lowered = keyword.toLowerCase();
+        return tasks.stream()
+                .filter(task -> task.description.toLowerCase().contains(lowered))
+                .collect(Collectors.toList());
     }
 
     public void add(Task task) {
