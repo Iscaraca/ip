@@ -38,10 +38,12 @@ public class MainWindow {
     @FXML
     private void handleUserInput() {
         String input = userInput.getText();
-        String response = fanta.respond(input);
-        if (!input.isEmpty()) {
-            dialogContainer.getChildren().add(DialogBox.getUserDialog(input, userImage));
+        if (input == null || input.trim().isEmpty()) {
+            userInput.clear();
+            return;
         }
+        String response = fanta.respond(input);
+        dialogContainer.getChildren().add(DialogBox.getUserDialog(input, userImage));
         if (!response.isEmpty()) {
             dialogContainer.getChildren().add(DialogBox.getFantaDialog(response, fantaImage));
         }
