@@ -39,38 +39,38 @@ public class Fanta {
 
             try {
                 switch (cmd) {
-                case BYE:
-                    ui.showBye();
-                    isExit = true;
-                    break;
-                case EMPTY:
-                    break;
-                case LIST:
-                    ui.showList(tasks);
-                    break;
-                case MARK:
-                    handleMark(input);
-                    break;
-                case UNMARK:
-                    handleUnmark(input);
-                    break;
-                case TODO:
-                    handleTodo(input);
-                    break;
-                case DEADLINE:
-                    handleDeadline(input);
-                    break;
-                case EVENT:
-                    handleEvent(input);
-                    break;
-                case DELETE:
-                    handleDelete(input);
-                    break;
-                case FIND:
-                    handleFind(input);
-                    break;
-                default:
-                    throw new FantaException("Sorry, I don't recognize that command.");
+                    case BYE:
+                        ui.showBye();
+                        isExit = true;
+                        break;
+                    case EMPTY:
+                        break;
+                    case LIST:
+                        ui.showList(tasks);
+                        break;
+                    case MARK:
+                        handleMark(input);
+                        break;
+                    case UNMARK:
+                        handleUnmark(input);
+                        break;
+                    case TODO:
+                        handleTodo(input);
+                        break;
+                    case DEADLINE:
+                        handleDeadline(input);
+                        break;
+                    case EVENT:
+                        handleEvent(input);
+                        break;
+                    case DELETE:
+                        handleDelete(input);
+                        break;
+                    case FIND:
+                        handleFind(input);
+                        break;
+                    default:
+                        throw new FantaException("Sorry, I don't recognize that command.");
                 }
             } catch (FantaException e) {
                 ui.showError(e.getMessage());
