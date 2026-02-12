@@ -86,6 +86,7 @@ public class Storage {
 
     private Task decode(String line) throws FantaException {
         String[] parts = line.split("\\s*\\|\\s*");
+        assert parts.length >= 3 : "Stored task entry must have at least type, status, description";
         if (parts.length < 3) {
             throw new FantaException("Corrupted task entry: " + line);
         }
