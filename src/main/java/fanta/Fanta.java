@@ -207,6 +207,9 @@ public class Fanta {
 
     private String handleFindGui(String input) {
         String keyword = input.length() > 4 ? input.substring(4).trim() : "";
+        if (keyword.isEmpty()) {
+            return "Please provide a keyword to search.";
+        }
         java.util.List<Task> matches = find(keyword, tasks);
         StringBuilder sb = new StringBuilder("Here are the matching tasks in your list:");
         for (int i = 0; i < matches.size(); i++) {
