@@ -22,6 +22,7 @@ public class Parser {
      * @return zero-based index, or -1 when invalid
      */
     public static int parseIndex(String value, int limit) {
+        assert limit >= 0 : "List size should not be negative";
         try {
             int idx = Integer.parseInt(value.trim()) - 1;
             return idx >= 0 && idx < limit ? idx : -1;
