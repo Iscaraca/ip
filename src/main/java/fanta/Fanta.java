@@ -142,7 +142,7 @@ public class Fanta {
     private void handleFind(String input) {
         String keyword = input.length() > 4 ? input.substring(4).trim() : "";
         java.util.List<Task> matches = find(keyword, tasks);
-        ui.showFind(matches);
+        ui.showFind(matches.toArray(new Task[0]));
     }
 
     private String handleMarkGui(String input) throws FantaException {

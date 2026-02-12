@@ -92,11 +92,11 @@ public class Ui {
      *
      * @param matches matching tasks
      */
-    public void showFind(java.util.List<Task> matches) {
+    public void showFind(Task... matches) {
         showDivider();
         System.out.println("  Here are the matching tasks in your list:");
-        for (int i = 0; i < matches.size(); i++) {
-            System.out.println("  " + (i + 1) + ". " + matches.get(i));
+        for (int i = 0; i < matches.length; i++) {
+            System.out.println("  " + (i + 1) + ". " + matches[i]);
         }
         showDivider();
     }
