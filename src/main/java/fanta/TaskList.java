@@ -37,6 +37,22 @@ public class TaskList {
         return tasks;
     }
 
+    /**
+     * Renders tasks as numbered list.
+     *
+     * @return string representation
+     */
+    public String asString() {
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < tasks.size(); i++) {
+            sb.append(i + 1).append(". ").append(tasks.get(i));
+            if (i + 1 < tasks.size()) {
+                sb.append(System.lineSeparator());
+            }
+        }
+        return sb.toString();
+    }
+
     public void add(Task task) {
         tasks.add(task);
     }
