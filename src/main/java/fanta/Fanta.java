@@ -61,6 +61,9 @@ public class Fanta {
                 case EVENT:
                     out.append(handleEventGui(input));
                     break;
+                case RECURRING:
+                    out.append(handleRecurringGui(input));
+                    break;
                 case DELETE:
                     out.append(handleDeleteGui(input));
                     break;
@@ -88,38 +91,41 @@ public class Fanta {
 
             try {
                 switch (cmd) {
-                    case BYE:
-                        ui.showBye();
-                        isExit = true;
-                        break;
-                    case EMPTY:
-                        break;
-                    case LIST:
-                        ui.showList(tasks);
-                        break;
-                    case MARK:
-                        handleMark(input);
-                        break;
-                    case UNMARK:
-                        handleUnmark(input);
-                        break;
-                    case TODO:
-                        handleTodo(input);
-                        break;
-                    case DEADLINE:
-                        handleDeadline(input);
-                        break;
-                    case EVENT:
-                        handleEvent(input);
-                        break;
-                    case DELETE:
-                        handleDelete(input);
-                        break;
-                    case FIND:
-                        handleFind(input);
-                        break;
-                    default:
-                        throw new FantaException("Sorry, I don't recognize that command.");
+                case BYE:
+                    ui.showBye();
+                    isExit = true;
+                    break;
+                case EMPTY:
+                    break;
+                case LIST:
+                    ui.showList(tasks);
+                    break;
+                case MARK:
+                    handleMark(input);
+                    break;
+                case UNMARK:
+                    handleUnmark(input);
+                    break;
+                case TODO:
+                    handleTodo(input);
+                    break;
+                case DEADLINE:
+                    handleDeadline(input);
+                    break;
+                case EVENT:
+                    handleEvent(input);
+                    break;
+                case RECURRING:
+                    handleRecurring(input);
+                    break;
+                case DELETE:
+                    handleDelete(input);
+                    break;
+                case FIND:
+                    handleFind(input);
+                    break;
+                default:
+                    throw new FantaException("Sorry, I don't recognize that command.");
                 }
             } catch (FantaException e) {
                 ui.showError(e.getMessage());
@@ -218,6 +224,13 @@ public class Fanta {
         return sb.toString();
     }
 
+    private String handleRecurringGui(String input) throws FantaException {
+        Recurring task = parseRecurring(input);
+        tasks.add(task);
+        save(tasks);
+        return "added: " + task + "\nNow you have " + tasks.size() + " tasks in the list.";
+    }
+
     private void handleMark(String input) throws FantaException {
         int idx = Parser.parseIndex(input.substring(5), tasks.size());
         Task marked = tasks.mark(idx);
@@ -276,6 +289,22 @@ public class Fanta {
         Task removed = tasks.remove(idx);
         save(tasks);
         ui.showDelete(removed, tasks.size());
+    }
+
+    private void handleRecurring(String input) throws FantaException {
+        Recurring task = parseRecurring(input);
+        tasks.add(task);
+        save(tasks);
+        ui.showAdded(task, tasks.size());
+    }
+
+    private Recurring parseRecurring(String input) throws FantaException {
+        String body = input.length() > 5 ? input.substring(5).trim() : "";
+        String[] parts = body.split(" /every ", 2);
+        if (parts.length < 2 || parts[0].trim().isEmpty() || parts[1].trim().isEmpty()) {
+            throw new FantaException("Recurring task needs a description and an /every schedule.");
+        }
+        return new Recurring(parts[0].trim(), parts[1].trim());
     }
 
 }

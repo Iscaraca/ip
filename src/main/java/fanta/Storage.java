@@ -81,6 +81,10 @@ public class Storage {
             Event e = (Event) task;
             return String.join(" | ", "E", status, task.description, e.getFrom(), e.getTo());
         }
+        if (task instanceof Recurring) {
+            Recurring r = (Recurring) task;
+            return String.join(" | ", "R", status, task.description, r.getCadence());
+        }
         return String.join(" | ", "?", status, task.description);
     }
 
@@ -97,23 +101,29 @@ public class Storage {
 
         Task task;
         switch (type) {
-            case "T":
-                task = new Todo(desc);
-                break;
-            case "D":
-                if (parts.length < 4) {
-                    throw new FantaException("Corrupted deadline entry: " + line);
-                }
-                task = new Deadline(desc, parts[3].trim());
-                break;
-            case "E":
-                if (parts.length < 5) {
-                    throw new FantaException("Corrupted event entry: " + line);
-                }
-                task = new Event(desc, parts[3].trim(), parts[4].trim());
-                break;
-            default:
-                throw new FantaException("Unknown task type: " + line);
+        case "T":
+            task = new Todo(desc);
+            break;
+        case "D":
+            if (parts.length < 4) {
+                throw new FantaException("Corrupted deadline entry: " + line);
+            }
+            task = new Deadline(desc, parts[3].trim());
+            break;
+        case "E":
+            if (parts.length < 5) {
+                throw new FantaException("Corrupted event entry: " + line);
+            }
+            task = new Event(desc, parts[3].trim(), parts[4].trim());
+            break;
+        case "R":
+            if (parts.length < 4) {
+                throw new FantaException("Corrupted recurring entry: " + line);
+            }
+            task = new Recurring(desc, parts[3].trim());
+            break;
+        default:
+            throw new FantaException("Unknown task type: " + line);
         }
 
         if (status.equals("1")) {
