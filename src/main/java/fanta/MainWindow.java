@@ -1,5 +1,6 @@
 package fanta;
 
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
@@ -42,11 +43,15 @@ public class MainWindow {
             userInput.clear();
             return;
         }
-        String response = fanta.respond(input);
-        dialogContainer.getChildren().add(DialogBox.getUserDialog(input, userImage));
+        String trimmed = input.trim();
+        String response = fanta.respond(trimmed);
+        dialogContainer.getChildren().add(DialogBox.getUserDialog(trimmed, userImage));
         if (!response.isEmpty()) {
             dialogContainer.getChildren().add(DialogBox.getFantaDialog(response, fantaImage));
         }
         userInput.clear();
+        if ("bye".equalsIgnoreCase(trimmed)) {
+            Platform.exit();
+        }
     }
 }
