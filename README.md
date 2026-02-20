@@ -1,6 +1,6 @@
 # Fanta project template
 
-This is a project template for a greenfield Java project. It's named after the Java mascot _Fanta_. Given below are instructions on how to use it.
+This is a project for a schedule managing chatbot. Given below are instructions on how to use it.
 
 ## Setting up in Intellij
 
