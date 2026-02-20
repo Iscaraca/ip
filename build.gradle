@@ -55,6 +55,11 @@ application {
 shadowJar {
     archiveBaseName = "fanta"
     archiveClassifier = null
+
+    // Ensure the packaged JAR launches the JavaFX app instead of the CLI-only entry point
+    manifest {
+        attributes('Main-Class': 'fanta.Launcher')
+    }
 }
 
 run{
@@ -64,7 +69,8 @@ run{
 jar {
     manifest {
         attributes(
-                'Main-Class': 'fanta.Fanta'
+                // Point the executable JAR to the JavaFX launcher so the UI starts correctly
+                'Main-Class': 'fanta.Launcher'
         )
     }
 }

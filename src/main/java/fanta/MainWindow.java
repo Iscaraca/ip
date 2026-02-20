@@ -29,6 +29,7 @@ public class MainWindow {
     @FXML
     public void initialize() {
         scrollPane.vvalueProperty().bind(dialogContainer.heightProperty());
+        dialogContainer.setSpacing(2.0);
     }
 
     /** Injects the Fanta instance. */
