@@ -11,6 +11,10 @@ public class Task {
         this.description = description;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
     public void markDone() {
         done = true;
     }
